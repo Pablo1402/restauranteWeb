@@ -13,6 +13,9 @@ export class PratoService {
 		return this.http.get("http://localhost:52294/api/Prato").map(data => <IPrato[]>data.json());
 	}
 
+	getByNome(nome: string) {
+		return this.http.get("http://localhost:52294/api/Prato/nome/" + nome).map(data => <IPrato[]>data.json());
+	}
 
 	//post
 	addPrato(prato: IPrato) {
@@ -22,7 +25,7 @@ export class PratoService {
 
 	//put
 	editPrato(prato: IPrato) {
-		return this.http.put(`http://localhost:52294/api/Restaurante/${prato.id}`, prato);
+		return this.http.put(`http://localhost:52294/api/Prato/${prato.id}`, prato);
 	}
 
 	//delete

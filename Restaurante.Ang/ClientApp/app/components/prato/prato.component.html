@@ -1,57 +1,59 @@
 ﻿<div>
     <h1>Pratos</h1>
 </div>
-
-<div class="col-md-6">
-    <h3>Lista</h3>
-    <table class="table">
-        <tr>
-            <td>Id</td>
-            <td>Nome</td>
-            <td>Preco</td>
-            <td>Restaurante</td>
-            <td>-</td>
-        </tr>
-        <tr *ngFor="let prato of pratos">
-            <td>{{ prato.id }}</td>
-            <td>{{ prato.nome }}</td>
-            <td>{{ prato.preco }}</td>
-            <td>{{ prato.restaurante_id }}</td>
-            <td><button class="btn-primary" (click)="edit(prato)">Editar</button>&nbsp;&nbsp;<button class="btn-danger" (click)="delete(prato)">Remover</button></td>
-        </tr>
-    </table>
-</div>
-<div class="col-md-6">
-    <h3>{{ formLabel }}</h3>
-    <form [formGroup]="rform" (ngSubmit)="onSubmit()">
-        <div class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label pull-left">Nome</label>
-                <div class="col-xs-12 col-sm-6">
+<section *ngIf="!postback">
+    <div class="col-md-12">
+        <div class="options well">
+            <div class="form-group" [formGroup]="fPesquisa">
+                <label>Nome do Prato:</label>
+                <input type="text" class="form-control" formControlName="nomePesquisa" />
+            </div>
+            <button class="btn btn-default" (click)="search()"><i class="glyphicon-search"></i> Pesquisar</button>
+            <button class="btn btn-success" (click)="novo()"><i class="glyphicon-plus"></i> Novo Prato</button>
+        </div>
+        <h3>Lista</h3>
+        <table class="table">
+            <tr>
+                <td>Id</td>
+                <td>Nome</td>
+                <td>Preco</td>
+                <td>Restaurante</td>
+                <td>-</td>
+            </tr>
+            <tr *ngFor="let prato of pratos">
+                <td>{{ prato.id }}</td>
+                <td>{{ prato.nome }}</td>
+                <td>{{ prato.preco }}</td>
+                <td>{{ prato.restaurante.nome }}</td>
+                <td><button class="btn btn-primary" (click)="edit(prato)">Editar</button>&nbsp;&nbsp;<button class="btn btn-danger" (click)="delete(prato)">Remover</button></td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section *ngIf="postback">
+    <div class="col-md-12">
+        <h3>{{ formLabel }}</h3>
+        <form [formGroup]="formEdit" (ngSubmit)="onSubmit()">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label pull-left">Nome</label><br />
                     <input type="text" formControlName="nome" class="form-control" />
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label pull-left">Preco</label>
-                <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label class="control-label pull-left">Preco</label><br />
                     <input type="text" formControlName="preco" class="form-control" />
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label pull-left">Restaurante</label>
-                <div class="col-xs-12 col-sm-6">
-                    <input type="text" formControlName="restaurante_id" class="form-control" />
+                <div class="form-group">
+                    <label class="control-label pull-left">Restaurante</label><br />
+                    <select class="form-control col-xs-12 col-sm-6" formControlName="restaurante_id">
+                        <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nome}}</option>
+                    </select>
                 </div>
+                <button type="submit" [disabled]="!form.valid" class="btn btn-success">Salvar</button>
+                <button type="button" (click)="cancel()" class="btn btn-default">Cancelar</button>
             </div>
-            <div class="form-group">
-                <div class="col-md-2">
-                    <button type="submit" [disabled]="!form.valid" class="btn-success">Salvar</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" (click)="cancel()" class="btn-default">Cancelar</button>
-                </div>
-            </div>
-        </div>
 
-    </form>
-</div>
+        </form>
+    </div>
+</section>
+

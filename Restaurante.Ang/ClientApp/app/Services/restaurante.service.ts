@@ -13,6 +13,9 @@ export class RestauranteService {
 		return this.http.get("http://localhost:52294/api/Restaurante").map(data => <IRestaurante[]>data.json());
 	}
 
+	getByNome(nome: string) {
+		return this.http.get("http://localhost:52294/api/Restaurante/nome/"+nome).map(data => <IRestaurante[]>data.json());
+	}
 
 	//post
 	addRestaurante(restaurante: IRestaurante) {
